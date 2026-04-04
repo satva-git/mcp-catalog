@@ -1,0 +1,104 @@
+name: Google Docs (Custom)
+shortDescription: Create, manage, and export Google Docs with HTML export support (images as base64)
+description: |
+  A custom MCP server for Google Docs integration with all standard features plus HTML export capability.
+
+  ## Features
+  - **All Standard Tools**: List, get, create, insert, append, replace, delete, format, style, table, batch update
+  - **Export Document (NEW)**: Export documents as HTML with embedded images (base64 data URIs), PDF, DOCX, TXT, RTF, or EPUB
+  - **OAuth2 Authentication**: Secure Google OAuth integration
+
+  ## Export Document Tool
+  The `export_document` tool uses the Google Drive API's `files.export` endpoint to download documents in multiple formats.
+  When exporting as HTML, all embedded images are included as base64 data URIs, making the output fully self-contained.
+
+  ## What you'll need to connect
+  **No Setup Required**: Authentication is handled automatically through OAuth2 workflow
+
+metadata:
+  categories: Business
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/google-docs--v1.png
+repoURL: https://github.com/satva-git/google-mcp-custom/tree/main/docs
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/satva-git/google-docs-mcp:latest
+  port: 9000
+  path: /mcp/google-docs
+toolPreview:
+  - name: list_documents
+    description: List Google Docs documents in the user's Google Drive with filtering and pagination
+    params:
+      max_results: Maximum number of documents to return (1-100, default 20)
+      page_token: Token for pagination from previous response
+      file_name_contains: Case-insensitive search string to filter documents by name
+  - name: get_document
+    description: Get a Google Docs document and return its content as markdown
+    params:
+      document_id: ID of the Google Docs document to retrieve
+  - name: create_document
+    description: Create a new Google Docs document with optional initial content
+    params:
+      title: Title for the new document
+      initial_content: Optional initial text content to insert
+  - name: export_document
+    description: "Export a Google Docs document in a specified format. HTML export preserves embedded images as base64 data URIs, making the output self-contained with all images intact."
+    params:
+      document_id: ID of the Google Docs document to export
+      export_format: "Export format: 'html' (includes images as base64), 'pdf', 'docx', 'txt', 'rtf', or 'epub'. Defaults to 'html'."
+  - name: insert_text
+    description: Insert text at a specific position in a Google Docs document
+    params:
+      document_id: ID of the Google Docs document
+      text: Text to insert
+      index: Character index to insert at (1 = beginning of document body)
+  - name: append_text
+    description: Append text to the end of a Google Docs document
+    params:
+      document_id: ID of the Google Docs document
+      text: Text to append
+  - name: replace_text
+    description: Replace all occurrences of a text string in a Google Docs document
+    params:
+      document_id: ID of the Google Docs document
+      find_text: Text to find
+      replace_text: Text to replace with
+      match_case: Whether the search is case-sensitive (default true)
+  - name: delete_content
+    description: Delete content within a range in a Google Docs document
+    params:
+      document_id: ID of the Google Docs document
+      start_index: Start index of content range to delete
+      end_index: End index of content range to delete
+  - name: format_text
+    description: Format text in a Google Docs document (bold, italic, underline, strikethrough, font size, font family)
+    params:
+      document_id: ID of the Google Docs document
+      start_index: Start index of text range
+      end_index: End index of text range
+      bold: Set bold formatting
+      italic: Set italic formatting
+      underline: Set underline formatting
+      strikethrough: Set strikethrough formatting
+      font_size: Font size in points
+      font_family: Font family name
+  - name: set_paragraph_style
+    description: Set paragraph style in a Google Docs document (heading styles and alignment)
+    params:
+      document_id: ID of the Google Docs document
+      start_index: Start index of paragraph range
+      end_index: End index of paragraph range
+      named_style_type: "Named style type (e.g., HEADING_1, HEADING_2, NORMAL_TEXT)"
+      alignment: "Paragraph alignment (e.g., START, CENTER, END, JUSTIFIED)"
+  - name: insert_table
+    description: Insert a table at a specific position in a Google Docs document
+    params:
+      document_id: ID of the Google Docs document
+      rows: Number of rows (1-100)
+      columns: Number of columns (1-20)
+      index: Character index to insert the table at
+  - name: batch_update_document
+    description: Execute a batch update on a Google Docs document with raw API requests
+    params:
+      document_id: ID of the Google Docs document
+      requests: List of Google Docs API request objects

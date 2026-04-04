@@ -1,0 +1,94 @@
+name: Google Drive (Custom)
+shortDescription: Manage Google Drive files with multi-format export support (HTML, PDF, DOCX, CSV)
+description: |
+  A custom MCP server for Google Drive integration with all standard features plus multi-format file export.
+
+  ## Features
+  - **File Operations**: List, get, copy, update, delete files with advanced filtering
+  - **Folder Management**: Create and organize folder hierarchies
+  - **Permission Management**: Role-based access, sharing, and ownership transfer
+  - **Shared Drives**: Full management of shared drives
+  - **Export File (NEW)**: Export Google Workspace files in multiple formats — HTML (with base64 images), PDF, DOCX, XLSX, CSV, PPTX, TXT, RTF, EPUB
+  - **OAuth2 Authentication**: Secure Google OAuth integration
+
+  ## Export File Tool
+  The `export_file` tool exports Google Workspace files (Docs, Sheets, Slides) in any supported format.
+  Exporting Google Docs as HTML preserves all embedded images as base64 data URIs.
+
+  ## What you'll need to connect
+  **No Setup Required**: Authentication is handled automatically through OAuth2 workflow
+
+metadata:
+  categories: Business
+  allow-multiple: "true"
+icon: https://img.icons8.com/?size=100&id=VLr4hUR8iMGF&format=png&color=000000
+repoURL: https://github.com/satva-git/google-mcp-custom/tree/main/drive
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/satva-git/google-drive-mcp:latest
+  port: 9000
+  path: /mcp/google-drive
+toolPreview:
+  - name: list_files
+    description: List or search for files in the user's Google Drive
+    params:
+      drive_id: ID of the Google Drive to list files from
+      parent_id: ID of the parent folder to list files from
+      mime_type: Filter files by MIME type
+      file_name_contains: Case-insensitive search string to filter files by name
+      modified_time_after: Return only files modified after this timestamp (RFC 3339)
+      max_results: Maximum number of files to return (1-1000, default 50)
+  - name: get_file
+    description: Get a Google Drive file metadata
+    params:
+      file_id: ID of the file to get
+  - name: export_file
+    description: "Export a Google Workspace file in a specified format. For Docs: 'html' (preserves images as base64), 'pdf', 'docx', 'txt', 'rtf', 'epub'. For Sheets: 'xlsx', 'pdf', 'csv'. For Slides: 'pdf', 'pptx'."
+    params:
+      file_id: ID of the Google Workspace file to export
+      export_format: "Export format (default 'html'). Docs: html, pdf, docx, txt, rtf, epub. Sheets: xlsx, pdf, csv. Slides: pdf, pptx."
+  - name: read_file
+    description: Read the content of a file in Google Drive (converted to markdown). Files larger than 100MB will not be read.
+    params:
+      file_id: ID of the file to read
+  - name: copy_file
+    description: Create a copy of a Google Drive file
+    params:
+      file_id: ID of the file to copy
+      new_name: New name for the copied file
+      new_parent_id: New parent folder ID for the copied file
+  - name: update_file
+    description: Update an existing file or folder (rename and/or move)
+    params:
+      file_id: ID of the file or folder to update
+      new_name: New name for the file or folder
+      new_parent_id: New parent folder ID to move the item to
+  - name: create_folder
+    description: Create a new folder in Google Drive
+    params:
+      folder_name: Name of the new folder
+      parent_id: ID of the parent folder
+  - name: delete_file
+    description: Delete an existing file or folder from Google Drive
+    params:
+      file_id: ID of the file or folder to delete
+  - name: list_permissions
+    description: List all permissions for a Google Drive file, folder, or shared drive
+    params:
+      file_id: ID of the file, folder, or shared drive
+  - name: create_permission
+    description: Create a new permission for a Google Drive file, folder, or shared drive
+    params:
+      file_id: ID of the file, folder, or shared drive
+      role: "Role: owner, organizer, fileOrganizer, writer, commenter, reader"
+      type: "Type: user, group, domain, anyone"
+      email_address: Email address for user/group permission
+      domain: Domain for domain permission
+  - name: list_shared_drives
+    description: List all shared Google Drives for the user
+    params: {}
+  - name: transfer_ownership
+    description: Transfer ownership of a Google Drive file to another user (same domain only)
+    params:
+      file_id: ID of the file to transfer ownership of
+      new_owner_email: Email address of the new owner
