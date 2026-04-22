@@ -1,4 +1,4 @@
-name: Google Drive (Custom)
+name: Satva Google Drive
 shortDescription: Manage Google Drive files with multi-format export support (HTML, PDF, DOCX, CSV)
 description: |
   A custom MCP server for Google Drive integration with all standard features plus multi-format file export.

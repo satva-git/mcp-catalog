@@ -1,0 +1,64 @@
+name: Satva Google Analytics
+shortDescription: Query Google Analytics 4 properties — reports, realtime, metadata, annotations
+description: |
+  Satva-hosted Google Analytics MCP server, deployed at ga-mcp.satva.xyz.
+  Query GA4 properties, run reports, and retrieve account and property metadata.
+
+  ## Features
+  - **Account & Property Discovery**: List accounts, properties, and data streams
+  - **Standard Reports**: Run any GA4 Data API report with dimensions, metrics, filters
+  - **Realtime Reports**: Current active users and realtime activity
+  - **Custom Dimensions & Metrics**: Discover schema per property
+  - **Annotations**: List property annotations for context
+  - **Google Ads Links**: Inspect connected Ads accounts
+
+  ## What you'll need to connect
+  **Required:**
+  - **Google Cloud Service Account**: With Analytics Viewer role on target GA4 properties
+  - **GA4 Property ID(s)**: Numeric property identifier(s)
+
+  Authentication via service account credentials configured server-side (Coolify env).
+
+metadata:
+  categories: Marketing, Analytics
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/google-analytics.png
+repoURL: https://github.com/satva-git/google-analytics-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: https://ga-mcp.satva.xyz/mcp
+toolPreview:
+  - name: get_account_summaries
+    description: List all Google Analytics accounts and their properties accessible to the service account
+    params: {}
+  - name: get_property_details
+    description: Get detailed metadata for a GA4 property (data streams, timezone, currency)
+    params:
+      property_id: GA4 property ID
+  - name: run_report
+    description: Run a GA4 Data API report with dimensions and metrics
+    params:
+      property_id: GA4 property ID
+      dimensions: List of dimension names (e.g., date, country, deviceCategory)
+      metrics: List of metric names (e.g., activeUsers, sessions, screenPageViews)
+      date_ranges: List of date ranges (startDate, endDate)
+      dimension_filter: Optional dimension filter expression
+      limit: Maximum rows to return
+  - name: run_realtime_report
+    description: Run a GA4 realtime report for current active users and activity
+    params:
+      property_id: GA4 property ID
+      dimensions: Realtime dimensions
+      metrics: Realtime metrics
+  - name: get_custom_dimensions_and_metrics
+    description: List custom dimensions and metrics configured for a property
+    params:
+      property_id: GA4 property ID
+  - name: list_property_annotations
+    description: List annotations attached to a GA4 property
+    params:
+      property_id: GA4 property ID
+  - name: list_google_ads_links
+    description: List Google Ads account links on a GA4 property
+    params:
+      property_id: GA4 property ID

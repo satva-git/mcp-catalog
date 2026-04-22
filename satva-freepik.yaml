@@ -1,0 +1,59 @@
+name: Satva Freepik
+shortDescription: Generate, search, and manage visual content through Freepik's APIs
+description: |
+  Satva-hosted MCP server that connects AI assistants to Freepik's image, icon, and video APIs.
+  Built on FastMCP and deployed at freepicmcp.satva.xyz.
+
+  ## Features
+  - **Image Generation**: Generate AI images using Freepik's generative models
+  - **Asset Search**: Search Freepik's library of stock photos, vectors, and icons
+  - **Downloads**: Retrieve licensed assets by ID
+  - **Content Management**: Track generations, tasks, and usage
+
+  ## What you'll need to connect
+  **Required:**
+  - **Freepik API Key**: Get one at https://freepik.com/api
+
+metadata:
+  categories: Design, Marketing
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/freepik.png
+repoURL: https://github.com/satva-git/freepik-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: https://freepicmcp.satva.xyz/mcp
+  headers:
+    - name: Freepik API Key
+      key: x-freepik-api-key
+      required: true
+      sensitive: true
+toolPreview:
+  - name: search_resources
+    description: Search Freepik's library for photos, vectors, icons, and templates
+    params:
+      query: Search query
+      content_type: "Filter by content type (photo, vector, icon, template)"
+      limit: Maximum number of results
+  - name: generate_image
+    description: Generate an AI image from a text prompt using Freepik's image models
+    params:
+      prompt: Text prompt describing the desired image
+      aspect_ratio: "Output aspect ratio (square_1_1, widescreen_16_9, etc.)"
+      style: Optional style preset
+  - name: get_generation_status
+    description: Check the status of an asynchronous image generation task
+    params:
+      task_id: ID of the generation task
+  - name: download_resource
+    description: Get a licensed download URL for a Freepik resource
+    params:
+      resource_id: Freepik resource ID
+  - name: list_icons
+    description: Search and browse the Freepik icon library
+    params:
+      query: Search query for icons
+      style: Icon style filter
+  - name: get_resource_details
+    description: Retrieve full metadata for a Freepik resource by ID
+    params:
+      resource_id: Freepik resource ID

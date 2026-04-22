@@ -1,0 +1,93 @@
+name: Satva Xero
+shortDescription: Access Xero accounting data (contacts, invoices, bills, reports) via MCP
+description: |
+  Satva-hosted Xero MCP server, deployed at xeromcp.satva.xyz.
+  Multi-tenant OAuth with per-tenant Xero company (organisation) connections.
+
+  ## Features
+  - **Contacts**: Customers, suppliers, and contact groups
+  - **Invoices & Bills**: Create, update, approve, email
+  - **Bank Transactions**: Reconciliation, transfers, statements
+  - **Items & Tracking**: Inventory and tracking categories
+  - **Accounts & Journals**: Chart of accounts, manual journals
+  - **Reports**: P&L, balance sheet, trial balance, aged receivables/payables
+  - **Companies**: Switch active Xero organisation per tenant
+
+  ## What you'll need to connect
+  Multi-tenant OAuth identical in shape to the QuickBooks MCP:
+
+  1. Admin creates a tenant API key.
+  2. User logs in at `/ui/login`, clicks "Connect Xero" to complete OAuth at `/oauth/connect`.
+  3. Active company selected via `POST /oauth/active-company`.
+  4. MCP endpoint `/mcp` requires `Authorization: Bearer <tenant_api_key>`.
+
+metadata:
+  categories: Finance, Business
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/xero.png
+repoURL: https://github.com/satva-git/xero-mcp-server
+runtime: remote
+remoteConfig:
+  fixedURL: https://xeromcp.satva.xyz/mcp
+  headers:
+    - name: Tenant API Key
+      key: Authorization
+      required: true
+      sensitive: true
+toolPreview:
+  - name: list_contacts
+    description: List Xero contacts (customers and suppliers)
+    params:
+      where: Xero WHERE clause filter
+      is_customer: Only customers
+      is_supplier: Only suppliers
+  - name: create_contact
+    description: Create a new Xero contact
+    params:
+      name: Contact name
+      email_address: Email
+      is_customer: Mark as customer
+      is_supplier: Mark as supplier
+  - name: list_invoices
+    description: List Xero invoices
+    params:
+      status: "Status filter (DRAFT, SUBMITTED, AUTHORISED, PAID, VOIDED)"
+      contact_id: Filter by contact
+      date_from: Start date
+      date_to: End date
+  - name: create_invoice
+    description: Create a sales invoice (ACCREC)
+    params:
+      contact_id: Customer contact ID
+      line_items: List of line items
+      due_date: Invoice due date
+      reference: Invoice reference
+  - name: email_invoice
+    description: Email an invoice to the contact on file
+    params:
+      invoice_id: Invoice ID
+  - name: list_bills
+    description: List supplier bills (ACCPAY invoices)
+    params:
+      status: Bill status filter
+      contact_id: Filter by supplier
+  - name: list_bank_transactions
+    description: List bank transactions for a bank account
+    params:
+      bank_account_id: Bank account ID
+      date_from: Start date
+      date_to: End date
+  - name: list_accounts
+    description: List the Xero chart of accounts
+    params:
+      where: Optional WHERE clause filter
+  - name: run_report
+    description: Run a Xero report (P&L, balance sheet, trial balance, aged receivables, aged payables)
+    params:
+      report_type: Report identifier
+      start_date: Period start
+      end_date: Period end
+  - name: switch_active_company
+    description: Switch the active Xero organisation for this tenant
+    params:
+      tenant_id: Xero tenant (organisation) ID

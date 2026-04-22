@@ -1,0 +1,91 @@
+name: Satva Basecamp
+shortDescription: Manage Basecamp 3+ projects, todos, docs, messages, and card tables
+description: |
+  Satva-hosted MCP server for Basecamp 3+, deployed at basecampmcp.satva.xyz.
+  Supports multi-user OAuth via a companion service at basecampoauth.satva.xyz.
+
+  ## Features
+  - **Project & People**: List projects, people, assignments, and roles
+  - **Todos**: Create, update, complete, reposition, and archive todos and todo lists
+  - **Documents & Vaults**: Navigate vault hierarchy, create and edit docs
+  - **Messages & Campfire**: Read message boards, post messages, browse campfire lines
+  - **Card Tables (Kanban)**: Manage columns, cards, and card steps
+  - **Inbox**: Handle email forwards and replies
+  - **Search**: Global search across a project's content
+
+  ## What you'll need to connect
+  OAuth-based. The server handles Basecamp OAuth via the companion endpoint at
+  https://basecampoauth.satva.xyz. On first use the client is redirected to authorize;
+  tokens are stored server-side and refreshed automatically.
+
+  **Required server env (already configured in Coolify):**
+  - `BASECAMP_CLIENT_ID`, `BASECAMP_CLIENT_SECRET`
+  - `BASECAMP_ACCOUNT_ID`
+
+metadata:
+  categories: Project Management, Business
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/basecamp.png
+repoURL: https://github.com/satva-git/Basecamp-MCP-Server
+runtime: remote
+remoteConfig:
+  fixedURL: https://basecampmcp.satva.xyz/mcp
+toolPreview:
+  - name: get_projects
+    description: List all accessible Basecamp projects (paginated)
+    params:
+      page: Page number
+  - name: get_project
+    description: Get a single project with dock links to all its tools
+    params:
+      project_id: Basecamp project ID
+  - name: get_todos
+    description: List todos in a todo list
+    params:
+      project_id: Basecamp project ID
+      todolist_id: Todo list ID
+  - name: create_todo
+    description: Create a new todo in a todo list
+    params:
+      project_id: Project ID
+      todolist_id: Todo list ID
+      content: Todo content/title
+      assignee_ids: List of user IDs to assign
+      due_on: Due date (YYYY-MM-DD)
+  - name: complete_todo
+    description: Mark a todo as completed
+    params:
+      project_id: Project ID
+      todo_id: Todo ID
+  - name: create_document
+    description: Create a new document inside a vault
+    params:
+      project_id: Project ID
+      vault_id: Parent vault (folder) ID
+      title: Document title
+      content: Document content (rich text / markdown)
+  - name: create_message
+    description: Post a message on a project's message board
+    params:
+      project_id: Project ID
+      message_board_id: Message board ID
+      subject: Message subject
+      content: Message body
+  - name: global_search
+    description: Search across all content types in a Basecamp project
+    params:
+      project_id: Project ID
+      query: Search query
+  - name: create_card
+    description: Create a new card on a card table column
+    params:
+      project_id: Project ID
+      column_id: Column ID
+      title: Card title
+      content: Card description
+  - name: move_card
+    description: Move a card between columns on a card table
+    params:
+      project_id: Project ID
+      card_id: Card ID
+      target_column_id: Destination column ID

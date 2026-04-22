@@ -1,0 +1,96 @@
+name: Satva Pipedrive
+shortDescription: Complete Pipedrive CRM integration — deals, persons, orgs, activities, pipelines
+description: |
+  Satva-hosted Pipedrive MCP server, deployed at pipedrivemcp.satva.xyz.
+  100+ tools across 10 categories covering Pipedrive's core functionality with advanced
+  rate limiting, caching, and retry logic.
+
+  ## Tool categories
+  - **Deals** (23): full deal lifecycle — create, update, stage movement, participants, products, files
+  - **Persons** (12): contact management with custom fields, activities, deals, files
+  - **Organizations** (12): company management and relationships
+  - **Activities** (8): tasks, calls, meetings with due dates and completion
+  - **Files** (7): upload, download, manage, remote file linking
+  - **Search** (6): universal and entity-specific search
+  - **Pipelines** (8): pipeline and stage management, conversion stats
+  - **Notes** (5): notes on deals, persons, organizations
+  - **Fields** (8): custom field discovery and metadata
+  - **System** (5): health, metrics, user info, currencies, cache
+
+  ## What you'll need to connect
+  **Required:**
+  - **Pipedrive API Token**: Generate in Pipedrive → Settings → Personal preferences → API
+
+  Supports read-only mode and toolset filtering for safety.
+
+metadata:
+  categories: Sales, CRM
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/pipedrive.png
+repoURL: https://github.com/satva-git/mcp-pipedrive
+runtime: remote
+remoteConfig:
+  fixedURL: https://pipedrivemcp.satva.xyz/mcp
+  headers:
+    - name: Pipedrive API Token
+      key: x-pipedrive-api-token
+      required: true
+      sensitive: true
+toolPreview:
+  - name: list_deals
+    description: List deals with filtering by status, owner, stage, and date range
+    params:
+      status: "open | won | lost | deleted | all_not_deleted"
+      stage_id: Pipeline stage ID filter
+      owner_id: Filter by owner user ID
+  - name: create_deal
+    description: Create a new deal in a pipeline
+    params:
+      title: Deal title
+      value: Deal value
+      currency: Currency code
+      person_id: Primary contact
+      org_id: Related organization
+      stage_id: Pipeline stage
+  - name: move_deal_stage
+    description: Move a deal to a different pipeline stage
+    params:
+      deal_id: Deal ID
+      stage_id: Target stage ID
+  - name: list_persons
+    description: List persons (contacts) with filtering
+    params:
+      owner_id: Filter by owner
+      org_id: Filter by organization
+  - name: create_person
+    description: Create a new person (contact)
+    params:
+      name: Full name
+      email: Email address(es)
+      phone: Phone number(s)
+      org_id: Related organization
+  - name: list_organizations
+    description: List organizations (companies)
+    params:
+      owner_id: Filter by owner
+  - name: create_activity
+    description: Create an activity (call, meeting, task, email)
+    params:
+      subject: Activity subject
+      type: "Activity type: call, meeting, task, deadline, email, lunch"
+      due_date: Due date (YYYY-MM-DD)
+      due_time: Due time (HH:MM)
+      deal_id: Related deal
+      person_id: Related person
+  - name: search_all
+    description: Universal search across deals, persons, organizations, products
+    params:
+      term: Search term
+      item_types: List of entity types to include
+  - name: list_pipelines
+    description: List all pipelines and their stages
+    params: {}
+  - name: get_pipeline_stats
+    description: Get stage conversion statistics for a pipeline
+    params:
+      pipeline_id: Pipeline ID

@@ -1,4 +1,4 @@
-name: Google Docs (Custom)
+name: Satva Google Docs
 shortDescription: Create, manage, and export Google Docs with HTML export support (images as base64)
 description: |
   A custom MCP server for Google Docs integration with all standard features plus HTML export capability.

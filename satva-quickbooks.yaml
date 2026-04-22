@@ -1,0 +1,92 @@
+name: Satva QuickBooks
+shortDescription: Access QuickBooks Online data (invoices, customers, items, reports) via MCP
+description: |
+  Satva-hosted QuickBooks Online MCP server, deployed at quickbooksmcp.satva.xyz.
+  Multi-tenant with per-tenant QuickBooks OAuth connections.
+
+  ## Features
+  - **Customers, Vendors, Employees**: CRUD on contact entities
+  - **Invoices & Payments**: Create invoices, record payments, query aging
+  - **Items & Products**: Manage inventory and service items
+  - **Accounts & Journal Entries**: Chart of accounts and GL postings
+  - **Reports**: P&L, balance sheet, cash flow, trial balance
+  - **Companies**: Switch active company (realm) per tenant
+
+  ## What you'll need to connect
+  Multi-tenant OAuth flow handled by the server.
+
+  1. Administrator creates a tenant API key (`/ui/admin`).
+  2. User logs in at `/ui/login` with the tenant API key.
+  3. User clicks "Connect QuickBooks" to complete Intuit OAuth at `/ui/connect`.
+  4. Active company is selected; MCP tools then operate on that realm.
+
+  The MCP endpoint at `/mcp` requires `Authorization: Bearer <tenant_api_key>`.
+
+metadata:
+  categories: Finance, Business
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/quickbooks.png
+repoURL: https://github.com/satva-git/quickbooks-online-mcp-server
+runtime: remote
+remoteConfig:
+  fixedURL: https://quickbooksmcp.satva.xyz/mcp
+  headers:
+    - name: Tenant API Key
+      key: Authorization
+      required: true
+      sensitive: true
+toolPreview:
+  - name: list_customers
+    description: List QuickBooks customers for the active company
+    params:
+      max_results: Maximum number of results
+      active: Filter to active customers only
+  - name: get_customer
+    description: Get a QuickBooks customer by ID
+    params:
+      customer_id: QuickBooks customer ID
+  - name: create_customer
+    description: Create a new customer in QuickBooks
+    params:
+      display_name: Customer display name
+      email: Primary email
+      phone: Primary phone
+      billing_address: Billing address object
+  - name: list_invoices
+    description: List invoices, optionally filtered by customer or date range
+    params:
+      customer_id: Optional customer ID filter
+      date_from: Start date (YYYY-MM-DD)
+      date_to: End date (YYYY-MM-DD)
+      status: Invoice status filter
+  - name: create_invoice
+    description: Create an invoice for a customer
+    params:
+      customer_id: Customer ID
+      line_items: List of line items (item_id, qty, rate, description)
+      due_date: Invoice due date
+  - name: record_payment
+    description: Record a payment against one or more invoices
+    params:
+      customer_id: Customer ID
+      amount: Payment amount
+      invoice_ids: List of invoice IDs the payment applies to
+      payment_date: Date received
+  - name: list_items
+    description: List products and services (items) in QuickBooks
+    params:
+      type: "Filter by item type: Inventory, Service, NonInventory"
+  - name: run_report
+    description: Run a QuickBooks report (P&L, balance sheet, trial balance, cash flow, AR aging, AP aging)
+    params:
+      report_type: Report identifier
+      start_date: Report period start
+      end_date: Report period end
+  - name: list_accounts
+    description: List chart of accounts for the active company
+    params:
+      account_type: Optional filter by account type
+  - name: switch_active_company
+    description: Switch the active QuickBooks company (realm) for this tenant
+    params:
+      realm_id: Intuit realm ID of the company to activate
