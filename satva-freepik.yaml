@@ -21,7 +21,7 @@ icon: https://img.icons8.com/color/96/freepik.png
 repoURL: https://github.com/satva-git/freepik-mcp
 runtime: remote
 remoteConfig:
-  fixedURL: https://freepicmcp.satva.xyz/mcp
+  fixedURL: https://freepicmcp.satva.xyz/mcp/
   headers:
     - name: Freepik API Key
       key: x-freepik-api-key

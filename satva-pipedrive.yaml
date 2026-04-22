@@ -30,7 +30,7 @@ icon: https://img.icons8.com/color/96/pipedrive.png
 repoURL: https://github.com/satva-git/mcp-pipedrive
 runtime: remote
 remoteConfig:
-  fixedURL: https://pipedrivemcp.satva.xyz/mcp
+  fixedURL: https://pipedrivemcp.satva.xyz/sse
   headers:
     - name: Pipedrive API Token
       key: x-pipedrive-api-token
