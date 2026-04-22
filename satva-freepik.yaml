@@ -17,7 +17,7 @@ description: |
 metadata:
   categories: Design, Marketing
   allow-multiple: "true"
-icon: https://img.icons8.com/color/96/freepik.png
+icon: https://github.com/Freepik.png
 repoURL: https://github.com/satva-git/freepik-mcp
 runtime: remote
 remoteConfig:

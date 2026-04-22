@@ -25,7 +25,7 @@ description: |
 metadata:
   categories: Project Management, Business
   allow-multiple: "true"
-icon: https://img.icons8.com/color/96/basecamp.png
+icon: https://github.com/basecamp.png
 repoURL: https://github.com/satva-git/Basecamp-MCP-Server
 runtime: remote
 remoteConfig:

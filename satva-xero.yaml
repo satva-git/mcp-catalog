@@ -24,7 +24,7 @@ description: |
 metadata:
   categories: Finance, Business
   allow-multiple: "true"
-icon: https://img.icons8.com/color/96/xero.png
+icon: https://github.com/XeroAPI.png
 repoURL: https://github.com/satva-git/xero-mcp-server
 runtime: remote
 remoteConfig:

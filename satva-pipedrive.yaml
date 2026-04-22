@@ -26,7 +26,7 @@ description: |
 metadata:
   categories: Sales, CRM
   allow-multiple: "true"
-icon: https://img.icons8.com/color/96/pipedrive.png
+icon: https://github.com/pipedrive.png
 repoURL: https://github.com/satva-git/mcp-pipedrive
 runtime: remote
 remoteConfig:
