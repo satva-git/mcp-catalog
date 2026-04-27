@@ -22,7 +22,7 @@ icon: https://img.icons8.com/color/96/google-docs--v1.png
 repoURL: https://github.com/satva-git/google-mcp-custom/tree/main/docs
 runtime: remote
 remoteConfig:
-  fixedURL: https://googledocsmcp.satva.xyz/mcp/google-docs
+  fixedURL: https://googledocsmcp.satva.xyz/mcp/google-docs/
 toolPreview:
   - name: list_documents
     description: List Google Docs documents in the user's Google Drive with filtering and pagination
