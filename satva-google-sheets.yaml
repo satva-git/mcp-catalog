@@ -1,0 +1,74 @@
+name: Satva Google Sheets
+shortDescription: Read, write, and manage Google Sheets with formula support and worksheet management
+description: |
+  A custom MCP server for Google Sheets integration covering spreadsheet creation, reading, cell/range updates, formulas, and worksheet management.
+
+  ## Features
+  - **Spreadsheet Operations**: List, create, read, delete spreadsheets
+  - **Worksheet Management**: List worksheets, create new worksheets within a spreadsheet
+  - **Cell & Range Updates**: Update individual cells, append rows, clear ranges
+  - **Formulas**: Fill ranges with formulas (e.g. `=A2+B2`, `=VLOOKUP(...)`)
+  - **OAuth2 Authentication**: Secure Google OAuth integration
+
+  ## What you'll need to connect
+  **No Setup Required**: Authentication is handled automatically through OAuth2 workflow.
+
+metadata:
+  categories: Business
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/google-sheets.png
+repoURL: https://github.com/satva-git/google-mcp-custom/tree/main/sheets
+runtime: remote
+remoteConfig:
+  fixedURL: https://googlesheetsmcp.satva.xyz/mcp/google-sheets/
+toolPreview:
+  - name: list_spreadsheets
+    description: List spreadsheets in the user's Google Drive
+    params:
+      max_results: Maximum number of spreadsheets to return
+      page_token: Token for pagination from previous response
+      file_name_contains: Case-insensitive search string to filter by name
+  - name: list_worksheets
+    description: List all worksheets (tabs) within a spreadsheet
+    params:
+      spreadsheet_id: ID of the spreadsheet
+  - name: create_spreadsheet
+    description: Create a new Google Sheets spreadsheet
+    params:
+      title: Title for the new spreadsheet
+  - name: create_worksheet
+    description: Create a new worksheet (tab) within an existing spreadsheet
+    params:
+      spreadsheet_id: ID of the spreadsheet to add a worksheet to
+      worksheet_name: Name of the new worksheet
+  - name: read_spreadsheet
+    description: Read cell values from a spreadsheet range
+    params:
+      spreadsheet_id: ID of the spreadsheet to read
+      worksheet_name: Worksheet (tab) name
+      cell_range: Range in A1 notation (e.g. 'A1:C10')
+  - name: delete_spreadsheet
+    description: Delete a Google Sheets spreadsheet
+    params:
+      spreadsheet_id: ID of the spreadsheet to delete
+  - name: update_cells
+    description: Update one or more individual cells with new values
+    params:
+      spreadsheet_id: ID of the spreadsheet to update
+      cells_to_update: List of cells (address + new value)
+  - name: update_range_with_formula
+    description: Fill a range with formulas (e.g. for calculated columns)
+    params:
+      spreadsheet_id: ID of the spreadsheet to update
+      target_range: Range in A1 notation to fill
+      formula: Formula to apply across the range
+  - name: append_row
+    description: Append a new row of values to a worksheet
+    params:
+      spreadsheet_id: ID of the spreadsheet to append to
+      row_values: List of values to append as a new row
+  - name: clear_range
+    description: Clear cell values within a range
+    params:
+      spreadsheet_id: ID of the spreadsheet to clear data from
+      cell_range: Range of cells in A1 notation
