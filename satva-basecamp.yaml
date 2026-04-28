@@ -2,7 +2,8 @@ name: Satva Basecamp
 shortDescription: Manage Basecamp 3+ projects, todos, docs, messages, and card tables
 description: |
   Satva-hosted MCP server for Basecamp 3+, deployed at basecampmcp.satva.xyz.
-  Supports multi-user OAuth via a companion service at basecampoauth.satva.xyz.
+  Per-user OAuth 2.0 against 37signals — same single-container mcp-oauth-proxy
+  pattern as the Satva Google Workspace MCPs.
 
   ## Features
   - **Project & People**: List projects, people, assignments, and roles
@@ -14,13 +15,10 @@ description: |
   - **Search**: Global search across a project's content
 
   ## What you'll need to connect
-  OAuth-based. The server handles Basecamp OAuth via the companion endpoint at
-  https://basecampoauth.satva.xyz. On first use the client is redirected to authorize;
-  tokens are stored server-side and refreshed automatically.
-
-  **Required server env (already configured in Coolify):**
-  - `BASECAMP_CLIENT_ID`, `BASECAMP_CLIENT_SECRET`
-  - `BASECAMP_ACCOUNT_ID`
+  No setup required — authentication is handled automatically through the
+  Basecamp (37signals) OAuth flow. On first call the client is redirected to
+  Basecamp's consent screen; tokens are stored encrypted server-side and
+  refreshed automatically per request.
 
 metadata:
   categories: Project Management, Business
@@ -29,7 +27,7 @@ icon: https://github.com/basecamp.png
 repoURL: https://github.com/satva-git/Basecamp-MCP-Server
 runtime: remote
 remoteConfig:
-  fixedURL: https://basecampmcp.satva.xyz/mcp
+  fixedURL: https://basecampmcp.satva.xyz/mcp/basecamp/
 toolPreview:
   - name: get_projects
     description: List all accessible Basecamp projects (paginated)
