@@ -1,0 +1,98 @@
+name: Satva Google Slides
+shortDescription: Create, edit, and export Google Slides presentations (PDF / PPTX)
+description: |
+  A custom MCP server for Google Slides integration covering listing, reading,
+  authoring, editing, and exporting presentations.
+
+  ## Features
+  - **List Presentations**: Browse Slides in the user's Drive with name filtering and pagination
+  - **Get Presentation / Get Slide / Get Text**: Inspect structure and extract slide text as markdown
+  - **Create Presentation**: New decks with optional initial subtitle
+  - **Slide Management**: Create with predefined layouts (TITLE, TITLE_AND_BODY, BLANK, etc.) and delete by objectId
+  - **Text Editing**: Insert text into shapes/placeholders/cells, replace text across the whole deck
+  - **Insert Image**: Drop images from a public URL onto a slide
+  - **Batch Update**: Execute raw Slides API requests for advanced operations
+  - **Export Presentation**: PDF, PPTX, ODP, or TXT via the Drive API
+  - **OAuth2 Authentication**: Secure Google OAuth integration
+
+  ## What you'll need to connect
+  **No Setup Required**: Authentication is handled automatically through OAuth2 workflow
+
+metadata:
+  categories: Business
+  allow-multiple: "true"
+icon: https://img.icons8.com/color/96/google-slides.png
+repoURL: https://github.com/satva-git/google-mcp-custom/tree/main/slides
+runtime: remote
+remoteConfig:
+  fixedURL: https://googleslidesmcp.satva.xyz/mcp/google-slides/
+toolPreview:
+  - name: list_presentations
+    description: List Google Slides presentations in the user's Drive with filtering and pagination
+    params:
+      max_results: Maximum number of presentations to return (1-100, default 20)
+      page_token: Token for pagination from previous response
+      file_name_contains: Case-insensitive search string to filter presentations by name
+  - name: get_presentation
+    description: Get a presentation's metadata and a per-slide summary (objectId, element count, text preview)
+    params:
+      presentation_id: ID of the Google Slides presentation
+  - name: get_presentation_text
+    description: Extract all text from a presentation as markdown, one section per slide
+    params:
+      presentation_id: ID of the Google Slides presentation
+  - name: get_slide
+    description: Get the full element list of a single slide plus extracted text
+    params:
+      presentation_id: ID of the Google Slides presentation
+      slide_object_id: objectId of the slide (page) to retrieve
+  - name: create_presentation
+    description: Create a new Google Slides presentation with optional initial subtitle text
+    params:
+      title: Title for the new presentation
+      initial_subtitle: Optional subtitle/body text for the auto-created title slide
+  - name: create_slide
+    description: Add a new slide to a presentation using a predefined layout
+    params:
+      presentation_id: ID of the Google Slides presentation
+      layout: "Predefined layout: BLANK, CAPTION_ONLY, TITLE, TITLE_AND_BODY, TITLE_AND_TWO_COLUMNS, TITLE_ONLY, SECTION_HEADER, SECTION_TITLE_AND_DESCRIPTION, ONE_COLUMN_TEXT, MAIN_POINT, BIG_NUMBER"
+      insertion_index: 0-based index to insert at (omit to append)
+  - name: delete_slide
+    description: Delete a slide by its objectId
+    params:
+      presentation_id: ID of the Google Slides presentation
+      slide_object_id: objectId of the slide to delete
+  - name: insert_text
+    description: Insert text into a shape, placeholder, or table cell on a slide
+    params:
+      presentation_id: ID of the Google Slides presentation
+      object_id: objectId of the target shape/placeholder/cell
+      text: Text to insert
+      insertion_index: Character index to insert at (default 0)
+  - name: replace_text
+    description: Replace all occurrences of text across the entire presentation
+    params:
+      presentation_id: ID of the Google Slides presentation
+      find_text: Text to find
+      replace_text: Text to replace with
+      match_case: Whether the search is case-sensitive (default true)
+  - name: insert_image
+    description: Insert an image from a public URL onto a slide
+    params:
+      presentation_id: ID of the Google Slides presentation
+      slide_object_id: objectId of the target slide
+      image_url: Public HTTPS URL to the image
+      width_pt: Image width in points (default 400)
+      height_pt: Image height in points (default 300)
+      translate_x_pt: X offset from slide origin in points (default 50)
+      translate_y_pt: Y offset from slide origin in points (default 50)
+  - name: export_presentation
+    description: Export a Google Slides presentation as PDF, PPTX, ODP, or TXT via the Drive API. Binary formats are returned as base64.
+    params:
+      presentation_id: ID of the Google Slides presentation to export
+      export_format: "Export format: 'pdf', 'pptx', 'txt', or 'odp'. Defaults to 'pdf'."
+  - name: batch_update_presentation
+    description: Execute a batch update on a presentation with raw Slides API request objects
+    params:
+      presentation_id: ID of the Google Slides presentation
+      requests: List of Google Slides API request objects
