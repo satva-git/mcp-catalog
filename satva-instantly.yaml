@@ -1,0 +1,122 @@
+name: Satva Instantly
+shortDescription: Cold email automation — campaigns, leads, accounts, deliverability, analytics (170 tools)
+description: |
+  Satva-hosted Instantly.ai cold email MCP server, deployed at instantlymcp.satva.xyz.
+  Built on the open-source `bcharleson/instantly-cli` MCP, forked into
+  `satva-git/instantly-mcp-server` with an HTTP transport added so each user
+  can supply their own Instantly V2 API key per request — no shared workspace.
+
+  Full coverage of the Instantly V2 API: 170 tools across 31 groups including
+  campaign lifecycle, lead operations, email account warmup, unified inbox,
+  enrichment (SuperSearch), webhooks, blocklists, and analytics.
+
+  ## Tool groups
+  - **Campaigns** (11): create, update, activate, pause, list, sequence management
+  - **Leads** (12): add, update, search, bulk operations, status changes
+  - **Email Accounts** (12): connect, warmup config, deliverability monitoring
+  - **Email / Unified Inbox** (8): list threads, reply, forward, mark read
+  - **Analytics** (6): campaign and account performance metrics
+  - **Webhooks** (8): create, list, manage event subscriptions
+  - **Enrichment / SuperSearch** (10): lead enrichment and prospect discovery
+  - **Inbox Placement** (6): deliverability tests and reports
+  - **Blocklist** (5), **Custom Tags** (6), **Lead Labels** (6), **Subsequences** (8)
+  - **Lead Lists** (6), **Workspace** (6), and 16 additional groups
+
+  ## What you'll need to connect
+  **Required:**
+  - **Instantly API Key**: Generate in Instantly → Settings → Integrations → API
+    (V2 key — Growth+ plan or higher). The key is sent on every request via the
+    `x-instantly-api-key` header; nothing is stored server-side.
+
+metadata:
+  categories: Marketing, Sales, Cold Email
+  allow-multiple: "true"
+icon: https://github.com/Instantly-ai.png
+repoURL: https://github.com/satva-git/instantly-mcp-server
+runtime: remote
+remoteConfig:
+  fixedURL: https://instantlymcp.satva.xyz/mcp/instantly/
+  headers:
+    - name: Instantly API Key
+      key: x-instantly-api-key
+      required: true
+      sensitive: true
+toolPreview:
+  - name: campaigns_list
+    description: List campaigns with filtering by status and search term
+    params:
+      limit: Page size (default 10)
+      search: Search campaigns by name
+  - name: campaigns_create
+    description: Create a new cold email campaign
+    params:
+      name: Campaign name
+      campaign_schedule: Schedule object (timezone, days, start/end times)
+  - name: campaigns_activate
+    description: Activate (start sending) a campaign
+    params:
+      id: Campaign ID
+  - name: campaigns_pause
+    description: Pause a running campaign
+    params:
+      id: Campaign ID
+  - name: campaigns_analytics
+    description: Get campaign performance metrics — opens, replies, bounces, leads contacted
+    params:
+      id: Campaign ID
+      start_date: Range start (YYYY-MM-DD)
+      end_date: Range end (YYYY-MM-DD)
+  - name: leads_list
+    description: List leads with filtering by campaign, status, and search
+    params:
+      campaign: Campaign ID filter
+      search: Search by email or name
+      limit: Page size
+  - name: leads_create
+    description: Add a single lead to a campaign or list
+    params:
+      email: Lead email address
+      first_name: First name
+      last_name: Last name
+      campaign: Target campaign ID
+      personalization: Custom variables JSON
+  - name: leads_bulk_add
+    description: Bulk add leads to a campaign or list
+    params:
+      campaign: Target campaign ID
+      leads: Array of lead objects
+  - name: accounts_list
+    description: List connected sending email accounts and their warmup status
+    params:
+      limit: Page size
+  - name: accounts_warmup
+    description: Configure warmup for a sending account (ramp, daily limits, weekend)
+    params:
+      email: Account email
+      warmup_enabled: Enable/disable warmup
+      daily_increase: Ramp rate
+  - name: email_list
+    description: List emails in the unified inbox with filters by thread, account, label
+    params:
+      account: Filter by sending account
+      is_unread: Show only unread
+  - name: email_reply
+    description: Reply to a thread in the unified inbox
+    params:
+      thread_id: Source thread ID
+      body: Reply body (HTML or text)
+  - name: analytics_overview
+    description: Get workspace-level sending and reply analytics
+    params:
+      start_date: Range start
+      end_date: Range end
+  - name: enrichment_supersearch
+    description: Enrich a lead via SuperSearch (firmographic + contact data)
+    params:
+      email: Email to enrich
+      domain: Company domain
+  - name: webhooks_create
+    description: Subscribe to events (reply received, lead bounced, campaign completed)
+    params:
+      url: Webhook URL
+      events: Array of event types
